@@ -109,22 +109,30 @@ class CupcakeViewsTestCase(TestCase):
             self.assertEqual(Cupcake.query.count(), 2)
 
     def test_delete_cupcake(self):
+        """Test deleting a cupcake."""
         with app.test_client() as client:
-
-        # Delete the cupcake
-            response = client.delete(f'/api/cupcakes/{cupcake.id}')
-            deleted_cupcake = Cupcake.query.get(cupcake.id)
-
-        # Assert that the cupcake was deleted successfully
+            # Delete the first cupcake
+            response = client.delete(f'/api/cupcakes/{self.cupcake1.id}')
+            # Query the database to check if the first cupcake was deleted
+            deleted_cupcake1 = Cupcake.query.get(self.cupcake1.id)
+            # Assert that the first cupcake was deleted successfully
+            self.assertIsNone(deleted_cupcake1)
             self.assertEqual(response.status_code, 200)
-    
+            self.assertEqual(response.get_json(), {'msg': 'Deleted'})
+
     def test_update_cupcake(self):
+        """Test updating a cupcake."""
         with app.test_client() as client:
-            response = self.client.patch(f'/api/cupcakes/{cupcake.id}', json={'flavor': 'Updated Flavor', 'size': 'Medium', 'rating': 5.0, 'image': 'updated.jpg'})
-            updated_cupcake = Cupcake.query.get(cupcake.id)
-
-        # Assert that the cupcake was updated successfully
+            # Update the second cupcake data
+            new_data = {
+                'flavor': 'Updated Flavor',
+                'size': 'Updated Size',
+                'rating': 7,
+                'image': 'http://updatedCupcake.com/image.jpg'
+            }
+            # Sending request to update the second cupcake
+            response = client.patch(f'/api/cupcakes/{self.cupcake2.id}', json=new_data)
+            # Checking to see if the proper response code is given
             self.assertEqual(response.status_code, 200)
-
 
     

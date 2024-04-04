@@ -29,7 +29,7 @@ async function showInitialCupcakes() {
     
     const cupcakesList = document.getElementById("cupcakes-list");
     data.cupcakes.forEach(cupcakeData => {
-        const newCupcake = generateCupcakeHTML(cupcakeData);
+        const newCupcake = createCupcakeHTML(cupcakeData);
         cupcakesList.insertAdjacentHTML("beforeend", newCupcake);
     });
 }
@@ -51,7 +51,7 @@ document.getElementById("new-cupcake-form").addEventListener("submit", async fun
     });
   
     const newCupcakeData = newCupcakeResponse.data;
-    const newCupcake = generateCupcakeHTML(newCupcakeData.cupcake);
+    const newCupcake = createCupcakeHTML(newCupcakeData.cupcake);
     document.getElementById("cupcakes-list").insertAdjacentHTML("beforeend", newCupcake);
     document.getElementById("new-cupcake-form").reset();
   });
